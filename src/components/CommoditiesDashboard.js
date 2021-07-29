@@ -17,10 +17,18 @@ import { useState } from 'react';
 const CommoditiesDashboard = props => {
 
     const [commodityPrice, setCommodityPrice] = useState(props.commodityPrice);
+    const [navMultiple, setNavMultiple] = useState(1);
+    const [discountRate, setDiscountRate] = useState(0.08);
 
     const handleCommodityPriceChange = event => {
         setCommodityPrice(event.target.value);
-        console.log(event.target.value);
+    }
+    const handleNavMultipleChange = event => {
+        setNavMultiple(event.target.value);
+    }
+    const handleDiscountRateChange = event => {
+        let discrate = parseFloat(event.target.value)/100.0
+        setDiscountRate(discrate);
     }
 
     return (
@@ -39,7 +47,7 @@ const CommoditiesDashboard = props => {
                             <Input placeholder={props.commodityName + " Price"} onBlur={handleCommodityPriceChange}/>
                         </InputGroup>
                         <InputGroup size="md" maxW="33%" m="1">
-                            <Input placeholder={"P/NAV Multiple"}/>
+                            <Input placeholder={"P/NAV Multiple"} onBlur={handleNavMultipleChange}/>
                         </InputGroup>
                         <InputGroup size="md" maxW="33%" m="1">
                             <InputLeftElement
@@ -48,7 +56,7 @@ const CommoditiesDashboard = props => {
                                 fontSize="1.2em"
                                 children="%"
                             />
-                            <Input placeholder={"Discount Rate"}/>
+                            <Input placeholder={"Discount Rate"} onBlur={handleDiscountRateChange}/>
                         </InputGroup>
                     </InputGroup>
                 </HStack>
@@ -59,6 +67,8 @@ const CommoditiesDashboard = props => {
                                 name={equity.name}
                                 commodityPrice={commodityPrice}
                                 commodityName={props.commodityName}
+                                navMultiple={navMultiple}
+                                discountRate={discountRate}
                             />
                         );
                     })}

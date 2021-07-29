@@ -39,23 +39,26 @@ const color_from_return = (ret) => {
 const EquityCard = props => {
     const [sharePrice, setSharePrice] = useState(null);
     const [mktCap, setMktCap] = useState(null);
-    const [commodityPrice, setCommodityPrice] = useState(props.commodityPrice);
     const [upside, setUpside] = useState(null);
     const [bgColor, setBgColor] = useState("gray.200");
 
     console.log("Equity Card received", props.commodityPrice);
 
     useEffect(async () => {
-        let params = new URLSearchParams();
-        params.append("ticker", props.ticker);
-        const response = await axios.get("http://127.0.0.1:8000/equities/quote",
-            {
-                params: params
-            }
-        )
-        console.log(response);
-        setSharePrice(response.data.regularMarketPrice);
-        setMktCap(response.data.marketCap);
+        console.log("In quote...")
+        if(sharePrice === null){
+            console.log("Requesting new quote.")
+            let params = new URLSearchParams();
+            params.append("ticker", props.ticker);
+            const response = await axios.get("http://127.0.0.1:8000/equities/quote",
+                {
+                    params: params
+                }
+            )
+            console.log(response);
+            setSharePrice(response.data.regularMarketPrice);
+            setMktCap(response.data.marketCap);
+        }
     }, []);
 
     useEffect(async () => {
@@ -64,6 +67,8 @@ const EquityCard = props => {
             let params = new URLSearchParams();
             params.append("ticker", props.ticker);
             params.append("commodity_price", props.commodityPrice);
+            params.append("multiple",props.navMultiple);
+            params.append("discount_rate",props.discountRate);
             const response = await axios.get(
                 "http://127.0.0.1:8000/equities/valuation/"+props.commodityName,
                 {
@@ -81,7 +86,7 @@ const EquityCard = props => {
             setBgColor(color_from_return(ret));
 
         }
-    }, [mktCap, commodityPrice])
+    }, [mktCap, props.commodityPrice, props.navMultiple, props.discountRate])
 
     return (
         <Box maxW="md" borderWidth="1px" borderRadius="lg" overflow="hidden" bg={bgColor}> 
