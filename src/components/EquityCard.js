@@ -43,6 +43,8 @@ const EquityCard = props => {
     const [upside, setUpside] = useState(null);
     const [bgColor, setBgColor] = useState("gray.200");
 
+    console.log("Equity Card received", props.commodityPrice);
+
     useEffect(async () => {
         let params = new URLSearchParams();
         params.append("ticker", props.ticker);
@@ -58,6 +60,7 @@ const EquityCard = props => {
 
     useEffect(async () => {
         if(mktCap !== null){
+            console.log("Sending request to price at",props.commodityPrice);
             let params = new URLSearchParams();
             params.append("ticker", props.ticker);
             params.append("commodity_price", props.commodityPrice);
