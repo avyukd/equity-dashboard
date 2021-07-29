@@ -9,7 +9,8 @@ import {
     theme,
     Container,
     HStack, Heading, 
-    Input, InputLeftElement, InputGroup, Center
+    Input, InputLeftElement, InputGroup, Center,
+    Flex, Wrap
   } from '@chakra-ui/react';
 import EquityCard from './EquityCard';
 import { useState } from 'react';
@@ -60,7 +61,7 @@ const CommoditiesDashboard = props => {
                         </InputGroup>
                     </InputGroup>
                 </HStack>
-                <HStack>
+                <Wrap>
                     {props.equities.map(equity => {
                         return (
                             <EquityCard ticker={equity.ticker} 
@@ -72,7 +73,7 @@ const CommoditiesDashboard = props => {
                             />
                         );
                     })}
-                </HStack>
+                </Wrap>
             </VStack>
         </Box>
     );

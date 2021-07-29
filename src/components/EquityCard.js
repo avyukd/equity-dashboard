@@ -67,7 +67,9 @@ const EquityCard = props => {
             let params = new URLSearchParams();
             params.append("ticker", props.ticker);
             params.append("commodity_price", props.commodityPrice);
-            params.append("multiple",props.navMultiple);
+            if(props.navMultiple !== null){
+                params.append("multiple",props.navMultiple);
+            }
             params.append("discount_rate",props.discountRate);
             const response = await axios.get(
                 "http://127.0.0.1:8000/equities/valuation/"+props.commodityName,
