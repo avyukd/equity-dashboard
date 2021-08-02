@@ -20,6 +20,7 @@ const CommoditiesDashboard = props => {
     const [commodityPrice, setCommodityPrice] = useState(props.commodityPrice);
     const [navMultiple, setNavMultiple] = useState(1);
     const [discountRate, setDiscountRate] = useState(0.08);
+    const [capexMultiplier, setCapexMultiplier] = useState(1.0);
 
     const handleCommodityPriceChange = event => {
         setCommodityPrice(event.target.value);
@@ -31,7 +32,10 @@ const CommoditiesDashboard = props => {
         let discrate = parseFloat(event.target.value)/100.0
         setDiscountRate(discrate);
     }
-
+    const handleCapexMultiplierChange = event => {
+        console.log(event.target.value);
+        setCapexMultiplier(parseFloat(event.target.value));
+    }
     return (
         <Box m="5">
             <VStack>
@@ -59,6 +63,9 @@ const CommoditiesDashboard = props => {
                             />
                             <Input placeholder={"Discount Rate"} onBlur={handleDiscountRateChange}/>
                         </InputGroup>
+                        <InputGroup size="md" maxW="33%" m="1">
+                            <Input placeholder={"CAPEX Multiplier"} onBlur={handleCapexMultiplierChange}/>
+                        </InputGroup>
                     </InputGroup>
                 </HStack>
                 <Wrap>
@@ -70,6 +77,7 @@ const CommoditiesDashboard = props => {
                                 commodityName={props.commodityName}
                                 navMultiple={navMultiple}
                                 discountRate={discountRate}
+                                capexMultiplier={capexMultiplier}
                             />
                         );
                     })}

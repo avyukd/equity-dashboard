@@ -71,6 +71,7 @@ const EquityCard = props => {
                 params.append("multiple",props.navMultiple);
             }
             params.append("discount_rate",props.discountRate);
+            params.append("capex_mult",props.capexMultiplier);
             const response = await axios.get(
                 "http://127.0.0.1:8000/equities/valuation/"+props.commodityName,
                 {
@@ -88,7 +89,7 @@ const EquityCard = props => {
             setBgColor(color_from_return(ret));
 
         }
-    }, [mktCap, props.commodityPrice, props.navMultiple, props.discountRate])
+    }, [mktCap, props.commodityPrice, props.navMultiple, props.discountRate, props.capexMultiplier])
 
     return (
         <Box maxW="md" borderWidth="1px" borderRadius="lg" overflow="hidden" bg={bgColor}> 
