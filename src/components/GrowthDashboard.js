@@ -15,31 +15,31 @@ import {
 import EquityCard from './EquityCard';
 import { useState } from 'react';
 
-const CommoditiesDashboard = props => {
+const GrowthDashboard = props => {
 
-    const [commodityPrice, setCommodityPrice] = useState(props.commodityPrice);
-    const [navMultiple, setNavMultiple] = useState(1);
+    const [cagr, setCagr] = useState(0.20);
+    const [tv, setTv] = useState(0.03);
     const [discountRate, setDiscountRate] = useState(0.08);
-    const [capexMultiplier, setCapexMultiplier] = useState(1.0);
+    const [soc, setSOC] = useState(2.5);
 
-    const handleCommodityPriceChange = event => {
-        setCommodityPrice(event.target.value);
+    const handleCAGRChange = event => {
+        setCagr(parseFloat(event.target.value));
     }
-    const handleNavMultipleChange = event => {
-        setNavMultiple(event.target.value);
+    const handleTVGrowthRate = event => {
+        let tvrate = parseFloat(event.target.value)/100.0
+        setTv(tvrate);
     }
     const handleDiscountRateChange = event => {
         let discrate = parseFloat(event.target.value)/100.0
         setDiscountRate(discrate);
     }
-    const handleCapexMultiplierChange = event => {
-        console.log(event.target.value);
+    const handleSOC = event => {
         setCapexMultiplier(parseFloat(event.target.value));
     }
     return (
         <Box m="5">
             <VStack>
-                <Heading as="h4" size="md">{props.commodityName}</Heading>
+                <Heading as="h4" size="md">Growth</Heading>
                 <HStack>
                     <InputGroup>
                         <InputGroup size="md" maxW="33%" m="1">
@@ -49,10 +49,7 @@ const CommoditiesDashboard = props => {
                                 fontSize="1.2em"
                                 children="$"
                             />
-                            <Input placeholder={props.commodityName + " Price"} onBlur={handleCommodityPriceChange}/>
-                        </InputGroup>
-                        <InputGroup size="md" maxW="33%" m="1">
-                            <Input placeholder={"P/NAV Multiple"} onBlur={handleNavMultipleChange}/>
+                            <Input placeholder="CAGR" onBlur={handleCAGRChange}/>
                         </InputGroup>
                         <InputGroup size="md" maxW="33%" m="1">
                             <InputLeftElement
@@ -64,7 +61,16 @@ const CommoditiesDashboard = props => {
                             <Input placeholder={"Discount Rate"} onBlur={handleDiscountRateChange}/>
                         </InputGroup>
                         <InputGroup size="md" maxW="33%" m="1">
-                            <Input placeholder={"CAPEX Multiplier"} onBlur={handleCapexMultiplierChange}/>
+                            <InputLeftElement
+                                pointerEvents="none"
+                                color="gray.300"
+                                fontSize="1.2em"
+                                children="%"
+                            />
+                            <Input placeholder={"Terminal Growth Rate"} onBlur={handleTVGrowthRate}/>
+                        </InputGroup>
+                        <InputGroup size="md" maxW="33%" m="1">
+                            <Input placeholder={"Speed of Convergence"} onBlur={handleSoC}/>
                         </InputGroup>
                     </InputGroup>
                 </HStack>
@@ -72,7 +78,7 @@ const CommoditiesDashboard = props => {
                     {props.equities.map(equity => {
                         return (
                             <EquityCard 
-                                sector="commodities"
+                                assetType="commodities"
                                 ticker={equity.ticker} 
                                 name={equity.name}
                                 commodityPrice={commodityPrice}
