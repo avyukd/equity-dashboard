@@ -72,7 +72,7 @@ const CommoditiesDashboard = props => {
                     {props.equities.map(equity => {
                         return (
                             <EquityCard 
-                                sector="commodities"
+                                assetType="commodities"
                                 ticker={equity.ticker} 
                                 name={equity.name}
                                 commodityPrice={commodityPrice}

@@ -40,7 +40,8 @@ const getValuationResponse = async (props) =>{
     const params = new URLSearchParams();
     params.append("ticker", props.ticker);
     params.append("discount_rate",props.discountRate);
-    if(props.assetType == "commodities"){
+    if(props.assetType === "commodities"){
+        console.log("In commodities...");
         params.append("commodity_price", props.commodityPrice);
         params.append("multiple",props.navMultiple);
         params.append("capex_multiplier",props.capexMultiplier);
@@ -50,8 +51,9 @@ const getValuationResponse = async (props) =>{
                 params: params
             }
         )
-        return response;
-    }else if(props.assetType == "growth"){
+        console.log(response.data.value);
+        return response.data;
+    }else if(props.assetType === "growth"){
         params.append("cagr",props.cagr);
         params.append("terminal_growth",props.tvRate);
         params.append("speed_of_convergence",props.soc);
@@ -61,14 +63,12 @@ const getValuationResponse = async (props) =>{
                 params: params
             }
         );
-        return response;
+        return response.data;
     }else if(props.assetType == "value"){
-
+        return 0;
     }else{
         return 0;
     }
-    const params = new URLSearchParams();
-    return params;
 }
 
 const EquityCard = props => {
@@ -77,12 +77,9 @@ const EquityCard = props => {
     const [upside, setUpside] = useState(null);
     const [bgColor, setBgColor] = useState("gray.200");
 
-    console.log("Equity Card received", props.commodityPrice);
-
     useEffect(async () => {
         console.log("In quote...")
         if(sharePrice === null){
-            console.log("Requesting new quote.")
             let params = new URLSearchParams();
             params.append("ticker", props.ticker);
             const response = await axios.get("http://127.0.0.1:8000/equities/quote",
@@ -90,7 +87,6 @@ const EquityCard = props => {
                     params: params
                 }
             )
-            console.log(response);
             setSharePrice(response.data.regularMarketPrice);
             setMktCap(response.data.marketCap);
         }
@@ -98,7 +94,7 @@ const EquityCard = props => {
 
     useEffect(async () => {
         if(mktCap !== null){
-            console.log("Sending request to price at",props.commodityPrice);
+            /*console.log("Sending request to price at",props.commodityPrice);
             let params = new URLSearchParams();
             params.append("ticker", props.ticker);
             params.append("commodity_price", props.commodityPrice);
@@ -112,19 +108,25 @@ const EquityCard = props => {
                 {
                     params: params
                 }
-            )
-            let NAV = parseFloat(response.data.value); 
-            NAV = NAV * 1000000;
-            if(NAV < 0){
-                NAV = 0;
+            )*/
+            const response = await getValuationResponse(props);
+            if(response !== 0){
+                console.log("In main");
+                console.log(response);
+                let NAV = parseFloat(response.value); 
+                NAV = NAV * 1000000;
+                if(NAV < 0){
+                    NAV = 0;
+                }
+                let mcap = parseFloat(mktCap);
+                let ret = ( (NAV/mcap) - 1.0 ) * 100.0;
+                setUpside( ret.toFixed(2) );
+                setBgColor(color_from_return(ret));
             }
-            let mcap = parseFloat(mktCap);
-            let ret = ( (NAV/mcap) - 1.0 ) * 100.0;
-            setUpside( ret.toFixed(2) );
-            setBgColor(color_from_return(ret));
+            
 
         }
-    }, [mktCap, props.commodityPrice, props.navMultiple, props.discountRate, props.capexMultiplier])
+    }, [mktCap, props])
 
     return (
         <Box maxW="md" borderWidth="1px" borderRadius="lg" overflow="hidden" bg={bgColor}> 

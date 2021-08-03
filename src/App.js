@@ -12,6 +12,7 @@ import {
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 import { Logo } from './Logo';
 import CommoditiesDashboard from './components/CommoditiesDashboard';
+import GrowthDashboard from './components/GrowthDashboard';
 import trackedTickers from './trackedTickers';
 import {useState, useEffect} from 'react';
 import axios from 'axios';

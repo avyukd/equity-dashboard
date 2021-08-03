@@ -23,7 +23,8 @@ const GrowthDashboard = props => {
     const [soc, setSOC] = useState(2.5);
 
     const handleCAGRChange = event => {
-        setCagr(parseFloat(event.target.value));
+        let c = parseFloat(event.target.value)/100.0
+        setCagr(c.toString());
     }
     const handleTVGrowthRate = event => {
         let tvrate = parseFloat(event.target.value)/100.0
@@ -34,7 +35,7 @@ const GrowthDashboard = props => {
         setDiscountRate(discrate);
     }
     const handleSOC = event => {
-        setCapexMultiplier(parseFloat(event.target.value));
+        setSOC(parseFloat(event.target.value));
     }
     return (
         <Box m="5">
@@ -47,7 +48,7 @@ const GrowthDashboard = props => {
                                 pointerEvents="none"
                                 color="gray.300"
                                 fontSize="1.2em"
-                                children="$"
+                                children="%"
                             />
                             <Input placeholder="CAGR" onBlur={handleCAGRChange}/>
                         </InputGroup>
@@ -70,7 +71,7 @@ const GrowthDashboard = props => {
                             <Input placeholder={"Terminal Growth Rate"} onBlur={handleTVGrowthRate}/>
                         </InputGroup>
                         <InputGroup size="md" maxW="33%" m="1">
-                            <Input placeholder={"Speed of Convergence"} onBlur={handleSoC}/>
+                            <Input placeholder={"Speed of Convergence"} onBlur={handleSOC}/>
                         </InputGroup>
                     </InputGroup>
                 </HStack>
@@ -95,4 +96,4 @@ const GrowthDashboard = props => {
 
 }
 
-export default CommoditiesDashboard;
+export default GrowthDashboard;
