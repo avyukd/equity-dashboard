@@ -23,6 +23,7 @@ function App() {
         <CommoditiesDashboard equities={trackedTickers.uraniumTickers}
                               commodityName={"Uranium"}
                               commodityPrice={33}/>
+        <GrowthDashboard equities={trackedTickers.growthTickers} />
       </Box>
     </ChakraProvider>
   );

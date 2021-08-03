@@ -78,14 +78,13 @@ const GrowthDashboard = props => {
                     {props.equities.map(equity => {
                         return (
                             <EquityCard 
-                                assetType="commodities"
+                                assetType="growth"
                                 ticker={equity.ticker} 
                                 name={equity.name}
-                                commodityPrice={commodityPrice}
-                                commodityName={props.commodityName}
-                                navMultiple={navMultiple}
+                                cagr={cagr}
                                 discountRate={discountRate}
-                                capexMultiplier={capexMultiplier}
+                                tvRate={tv}
+                                soc={soc}
                             />
                         );
                     })}

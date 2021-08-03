@@ -6,6 +6,10 @@ const trackedTickers =
         {"ticker":"DNN", "name": "Denison Mines"},
         {"ticker":"URG","name":"UR Energy"},
         {"ticker":"AZZUF","name":"Azarga Energy"},
-    ]}
+    ],
+    "growthTickers":[
+        {"ticker":"PLTR","name":"Palantir"}
+    ]
+}
 
 export default trackedTickers; 

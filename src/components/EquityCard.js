@@ -36,6 +36,41 @@ const color_from_return = (ret) => {
     return "gray.200";
 }
 
+const getValuationResponse = async (props) =>{
+    const params = new URLSearchParams();
+    params.append("ticker", props.ticker);
+    params.append("discount_rate",props.discountRate);
+    if(props.assetType == "commodities"){
+        params.append("commodity_price", props.commodityPrice);
+        params.append("multiple",props.navMultiple);
+        params.append("capex_multiplier",props.capexMultiplier);
+        const response = await axios.get(
+            "http://127.0.0.1:8000/equities/valuation/commodities/"+props.commodityName,
+            {
+                params: params
+            }
+        )
+        return response;
+    }else if(props.assetType == "growth"){
+        params.append("cagr",props.cagr);
+        params.append("terminal_growth",props.tvRate);
+        params.append("speed_of_convergence",props.soc);
+        const response = await axios.get(
+            "http://127.0.0.1:8000/equities/valuation/growth",
+            {
+                params: params
+            }
+        );
+        return response;
+    }else if(props.assetType == "value"){
+
+    }else{
+        return 0;
+    }
+    const params = new URLSearchParams();
+    return params;
+}
+
 const EquityCard = props => {
     const [sharePrice, setSharePrice] = useState(null);
     const [mktCap, setMktCap] = useState(null);
