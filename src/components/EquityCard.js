@@ -10,9 +10,10 @@ import {
     Heading,
     HStack
   } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import CurrencyFormat from 'react-currency-format';
+import ThemeContext from '../context/theme-context';
 
 const color_from_return = (ret) => {
     if(ret > 0){
@@ -82,6 +83,11 @@ const getValuationResponse = async (props) =>{
 }
 
 const EquityCard = props => {
+
+    const ctx = useContext(ThemeContext);
+
+    console.log(ctx);
+
     const [sharePrice, setSharePrice] = useState(null);
     const [mktCap, setMktCap] = useState(null);
     const [upside, setUpside] = useState(null);
@@ -139,26 +145,28 @@ const EquityCard = props => {
     }, [mktCap, props])
 
     return (
-        <Box maxW="md" borderWidth="1px" borderRadius="lg" overflow="hidden" bg={bgColor}> 
-            <HStack>
-                <VStack m="5">
-                    <Heading as="h4" size="md">{props.name}</Heading>
-                    <Heading as="h6" size="sm">{props.ticker}</Heading>
-                    <Text size="sm">
-                        {sharePrice && <CurrencyFormat value={sharePrice} displayType={'text'} thousandSeparator={true} prefix={'$'} />}
-                    </Text>
-                    <Text size="sm"> 
-                        {mktCap && <CurrencyFormat value={mktCap} displayType={'text'} thousandSeparator={true} prefix={'$'} />}
-                    </Text>
-                </VStack>
-                <Box>
-                    <Text m="5" size="sm" as="u">
-                        {getPrimaryMetric(props)}
-                    </Text>
-                    <Heading m="5" size="lg">{upside}%</Heading>
-                </Box>
-            </HStack>
-        </Box>
+            <Box maxW="md" borderWidth="1px" borderRadius="lg" overflow="hidden" bg={bgColor}> 
+                <HStack>
+                    <VStack m="5">
+                        <Heading as="h4" size="md">{props.name}</Heading>
+                        <Heading as="h6" size="sm">{props.ticker}</Heading>
+                        <Text size="sm">
+                            {sharePrice && <CurrencyFormat value={sharePrice} displayType={'text'} thousandSeparator={true} prefix={'$'} />}
+                        </Text>
+                        <Text size="sm"> 
+                            {mktCap && <CurrencyFormat value={mktCap} displayType={'text'} thousandSeparator={true} prefix={'$'} />}
+                        </Text>
+                    </VStack>
+                    <Box>
+                        <Text m="5" size="sm" as="u">
+                            {getPrimaryMetric(props)}
+                        </Text>
+                        <Heading m="5" size="lg">{upside}%</Heading>
+                        <Text>{ctx.upsideOption}</Text>
+                    </Box>
+                </HStack>
+            </Box>
+
     );
 }
 

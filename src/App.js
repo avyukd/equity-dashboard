@@ -16,10 +16,11 @@ import GrowthDashboard from './components/GrowthDashboard';
 import trackedTickers from './trackedTickers';
 import {useState, useEffect} from 'react';
 import axios from 'axios';
-
+import Header from './components/Header';
 function App() {
   return (
     <ChakraProvider>
+      <Header />
       <Box>
         <CommoditiesDashboard equities={trackedTickers.uraniumTickers}
                               commodityName={"Uranium"}
