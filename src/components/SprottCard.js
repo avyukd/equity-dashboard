@@ -8,7 +8,8 @@ import {
     Grid,
     theme,
     Heading,
-    HStack
+    HStack,
+    propNames
   } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -39,12 +40,13 @@ const color_from_premium = (prem) => {
     return "gray.200";
 }
 
-const SprottCard = () => {
+const SprottCard = props => {
+    const [sharePrice, setSharePrice] = useState(null);
+    const [totalLbs, setTotalLbs] = useState(null);
+    const [premium, setPremium] = useState(null);
+    const [bgColor, setBgColor] = useState("gray.200");
     useEffect(async () => {
-        const [sharePrice, setSharePrice] = useState(null);
-        const [totalLbs, setTotalLbs] = useState(null);
-        const [premium, setPremium] = useState(null);
-        const [bgColor, setBgColor] = useState("gray.200");
+
 
         if(sharePrice === null){
             let params = new URLSearchParams();
@@ -60,16 +62,19 @@ const SprottCard = () => {
         <Box maxW="md" borderWidth="1px" borderRadius="lg" overflow="hidden" bg={bgColor}> 
             <HStack>
                 <VStack m="5">
-                    <Heading as="h4" size="md">Sprott Uranium Physical Trust</Heading>
+                    <Heading as="h4" size="md">Sprott U Physical Trust</Heading>
                     <Heading as="h6" size="sm">SPUT</Heading>
                     <Text size="sm">
                         {sharePrice && <CurrencyFormat value={sharePrice} displayType={'text'} thousandSeparator={true} prefix={'$'} />}
                     </Text>
                     <Text size="sm"> 
-                        {totalLbs}
+                        {totalLbs && <>Holding {totalLbs.toLocaleString()} lbs of U</>}
                     </Text>
                 </VStack>
                 <Box>
+                    <Text size="sm" as="u">
+                        Premium at ${props.uPrice}
+                    </Text>
                     <Heading m="5" size="lg">{premium}%</Heading>
                 </Box>
             </HStack>

@@ -72,7 +72,7 @@ const CommoditiesDashboard = props => {
                 <Wrap>
                     {
                         props.commodityName === "Uranium" &&
-                        <SprottCard />
+                        <SprottCard uPrice={props.commodityPrice}/>
                     }
                     {props.equities.map(equity => {
                         return (

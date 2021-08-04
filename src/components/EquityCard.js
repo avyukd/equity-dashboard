@@ -36,6 +36,16 @@ const color_from_return = (ret) => {
     return "gray.200";
 }
 
+const getPrimaryMetric = props => {
+    if(props.assetType === "commodities"){
+        return (<>Upside at ${props.commodityPrice}</>)
+    }else if(props.assetType === "growth"){
+        return (<>Upside at {props.cagr*100}% CAGR</>)
+    }else{
+        return null;
+    }
+}
+
 const getValuationResponse = async (props) =>{
     const params = new URLSearchParams();
     params.append("ticker", props.ticker);
@@ -142,6 +152,9 @@ const EquityCard = props => {
                     </Text>
                 </VStack>
                 <Box>
+                    <Text m="5" size="sm" as="u">
+                        {getPrimaryMetric(props)}
+                    </Text>
                     <Heading m="5" size="lg">{upside}%</Heading>
                 </Box>
             </HStack>
