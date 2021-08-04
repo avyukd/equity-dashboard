@@ -13,6 +13,7 @@ import {
     Flex, Wrap
   } from '@chakra-ui/react';
 import EquityCard from './EquityCard';
+import SprottCard from './SprottCard';
 import { useState } from 'react';
 
 const CommoditiesDashboard = props => {
@@ -69,6 +70,10 @@ const CommoditiesDashboard = props => {
                     </InputGroup>
                 </HStack>
                 <Wrap>
+                    {
+                        props.commodityName === "Uranium" &&
+                        <SprottCard />
+                    }
                     {props.equities.map(equity => {
                         return (
                             <EquityCard 
