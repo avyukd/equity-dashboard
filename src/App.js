@@ -17,8 +17,19 @@ import trackedTickers from './trackedTickers';
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 import Header from './components/Header';
+import ThemeContext from './context/theme-context';
+
+
 function App() {
+
+  const [upsideOption, setUpsideOption] = useState('Percentage');
+
   return (
+    <ThemeContext.Provider value={
+      {
+        upsideOption, setUpsideOption
+      }
+    }>
     <ChakraProvider>
       <Header />
       <Box>
@@ -28,6 +39,7 @@ function App() {
         <GrowthDashboard equities={trackedTickers.growthTickers} />
       </Box>
     </ChakraProvider>
+    </ThemeContext.Provider>
   );
 }
 

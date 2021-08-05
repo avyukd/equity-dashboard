@@ -82,11 +82,23 @@ const getValuationResponse = async (props) =>{
     }
 }
 
+const getUpside = (NAV, MKTCAP, UPSIDE_OPTION, SHARE_PRICE) => {
+    if(UPSIDE_OPTION == "Percentage"){
+        let ret = ( (NAV/MKTCAP) - 1.0 ) * 100.0
+        return ret.toFixed(2).toString() + "%";
+    }else if(UPSIDE_OPTION == "Share Price"){
+        let ret = (NAV/MKTCAP) * SHARE_PRICE
+        return "$"+ret.toFixed(2).toString();
+    }else{
+        //multiplier
+        let ret = NAV/MKTCAP
+        return ret.toFixed(2).toString() + "x";
+    }
+}
+
 const EquityCard = props => {
 
     const ctx = useContext(ThemeContext);
-
-    console.log(ctx);
 
     const [sharePrice, setSharePrice] = useState(null);
     const [mktCap, setMktCap] = useState(null);
@@ -127,7 +139,7 @@ const EquityCard = props => {
             )*/
             const response = await getValuationResponse(props);
             if(response !== 0){
-                console.log("In main");
+                /*console.log("In main");
                 console.log(response);
                 let NAV = parseFloat(response.value); 
                 NAV = NAV * 1000000;
@@ -135,8 +147,17 @@ const EquityCard = props => {
                     NAV = 0;
                 }
                 let mcap = parseFloat(mktCap);
+                */
+                let NAV = parseFloat(response.value);
+                NAV = NAV * 1000000;
+                if(NAV < 0){
+                    NAV = 0;
+                }
+                let mcap = parseFloat(mktCap);
+                let sP = parseFloat(sharePrice);
+                let upside = getUpside(NAV, mcap, ctx.upsideOption, sP);
                 let ret = ( (NAV/mcap) - 1.0 ) * 100.0;
-                setUpside( ret.toFixed(2) );
+                setUpside( upside );
                 setBgColor(color_from_return(ret));
             }
             
@@ -161,8 +182,7 @@ const EquityCard = props => {
                         <Text m="5" size="sm" as="u">
                             {getPrimaryMetric(props)}
                         </Text>
-                        <Heading m="5" size="lg">{upside}%</Heading>
-                        <Text>{ctx.upsideOption}</Text>
+                        <Heading m="5" size="lg">{upside}</Heading>
                     </Box>
                 </HStack>
             </Box>

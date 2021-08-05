@@ -13,20 +13,14 @@ import { useState, useContext } from "react";
 import ThemeContext from '../context/theme-context';
 
 const Header = (props) => {
-    const [selectedUpsideOption, setSelectedUpsideOption] = useState("Multiplier");
 
+    const ctx = useContext(ThemeContext);
     const handleUpsideOptionChange = event => {
-        console.log(event.target.value);
-      setSelectedUpsideOption(event.target.value);
+      ctx.setUpsideOption(event.target.value);
     };
 
 
     return (
-    <ThemeContext.Provider value={
-        {
-            upsideOption: "Multiplier"
-        }
-    }>
       <Flex
         as="nav"
         align="center"
@@ -52,7 +46,6 @@ const Header = (props) => {
           </Select>
         </Box>
       </Flex>
-    </ThemeContext.Provider>
     );
   };
   
