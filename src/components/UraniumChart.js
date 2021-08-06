@@ -16,6 +16,10 @@ const UraniumChart = () => {
         let supply_arr = supply_response.data;
         setSupplyObj(supply_response.data);
         const demand_response = await axios.get("http://127.0.0.1:8000/data/uranium/demand");
+
+        //forecasted_demand = [];
+        //demand_2019 = demand_response.data[demand_response.data.length - 1].demand
+        
         setDemandObj(demand_response.data);
     },[])
 
