@@ -22,6 +22,7 @@ const UraniumChart = () => {
     return (
         <Box maxW="50%">
             <VictoryChart domainPadding={20} theme={VictoryTheme.material}>
+            <VictoryLabel text="Uranium Supply/Demand" x="50%" y={30} textAnchor="middle"/>
             <VictoryAxis
                tickFormat={(el) => {return el.toString()}}
             />
