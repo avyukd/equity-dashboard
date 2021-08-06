@@ -18,7 +18,7 @@ import {useState, useEffect} from 'react';
 import axios from 'axios';
 import Header from './components/Header';
 import ThemeContext from './context/theme-context';
-
+import UraniumChart from './components/UraniumChart';
 
 function App() {
 
@@ -36,6 +36,7 @@ function App() {
         <CommoditiesDashboard equities={trackedTickers.uraniumTickers}
                               commodityName={"Uranium"}
                               commodityPrice={33}/>
+        <UraniumChart />
         <GrowthDashboard equities={trackedTickers.growthTickers} />
       </Box>
     </ChakraProvider>
