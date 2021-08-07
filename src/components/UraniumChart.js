@@ -14,6 +14,8 @@ const UraniumChart = () => {
     useEffect(async () => {
         const supply_response = await axios.get("http://127.0.0.1:8000/data/uranium/supply");
         let supply_arr = supply_response.data;
+        supply_response.data[0].supplyData[0] = {"year":2025,"supply":0.0};
+        console.log(supply_response.data);
         setSupplyObj(supply_response.data);
         const demand_response = await axios.get("http://127.0.0.1:8000/data/uranium/demand");
 
@@ -40,12 +42,12 @@ const UraniumChart = () => {
                 {
                     supplyObj && 
                     supplyObj.map((el, index) => (<VictoryBar data={el.supplyData}
-                        x="year" y="supply" labels={el.country}
-                        labelComponent={
+                        x="year" y="supply" //labels={el.source}
+                        /*labelComponent={
                             <VictoryLabel angle={90} verticalAnchor="middle" textAnchor="start"
-                            style={{fontSize: 5 }}
+                            style={{fontSize: 1 }}
                             />
-                        }
+                        }*/
                         />))
                 }
             </VictoryStack>
