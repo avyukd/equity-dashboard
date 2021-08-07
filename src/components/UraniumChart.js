@@ -9,7 +9,7 @@ import {
     Input,
     HStack,
     VStack,
-    InputGroup, InputLeftElement
+    InputGroup, InputLeftElement, Checkbox, Wrap
   } from '@chakra-ui/react';
 const UraniumChart = () => {
     
@@ -18,6 +18,9 @@ const UraniumChart = () => {
     const [deficitObj, setDeficitObj] = useState(null);
     const [demandGrowth, setDemandGrowth] = useState(0);
     const [longTermUnderfeeding, setLongTermUnderfeeding] = useState(16);
+    const [paladinFlag, setPaladinFlag] = useState(false);
+    const [globalFlag, setGlobalFlag] = useState(false);
+    const [mcarthurFlag, setMcarthurFlag] = useState(false);
 
     const handleDemandGrowthChange = (e) => {
         setDemandGrowth(parseFloat(e.target.value)/100);
@@ -29,7 +32,11 @@ const UraniumChart = () => {
 
     useEffect(async () => {
         const supply_response = await axios.get("http://127.0.0.1:8000/data/uranium/supply",
-            { params: {long_term_underfeeding: longTermUnderfeeding} });        
+            { params: {long_term_underfeeding: longTermUnderfeeding,
+                    paladinFlag: paladinFlag,
+                    globalFlag: globalFlag,
+                    mcarthurFlag: mcarthurFlag
+            } });        
         let supply_arr = supply_response.data;
         setSupplyObj(supply_response.data);
         const demand_response = await axios.get("http://127.0.0.1:8000/data/uranium/demand",
@@ -58,7 +65,7 @@ const UraniumChart = () => {
     },[demandGrowth, longTermUnderfeeding]);
 
     return (
-        <Box maxW="50%">
+        <Box maxW="60%">
             <HStack>
             <VictoryChart domainPadding={20} theme={VictoryTheme.material}>
                 <VictoryLabel text="Uranium Supply/Demand" x="50%" y={30} textAnchor="middle"/>
@@ -90,7 +97,7 @@ const UraniumChart = () => {
                     />
                 </VictoryStack>
             </VictoryChart>
-            <VStack>
+            <VStack maxW="30%">
                     <InputGroup size="md" m="1">
                         <InputLeftElement
                             pointerEvents="none"
@@ -109,6 +116,29 @@ const UraniumChart = () => {
                         />
                         <Input placeholder={"LT Underfeeding"} onBlur={handleLongTermUnderfeedingChange}/>
                     </InputGroup>
+                    <Wrap>
+                        <Checkbox colorScheme="green" onChange={
+                            (e) => {
+                                setMcarthurFlag(e.target.checked);
+                            }
+                        }>
+                            McArthur River (Cameco)
+                        </Checkbox>
+                        <Checkbox colorScheme="green" onChange={
+                            (e) => {
+                                setPaladinFlag(e.target.checked);
+                            }
+                        }>
+                            Larger Heinrich (Paladin)
+                        </Checkbox>
+                        <Checkbox colorScheme="green" onChange={
+                            (e) => {
+                                setGlobalFlag(e.target.checked);
+                            }
+                        }>
+                            Dasa (Global Atomic)
+                        </Checkbox>
+                    </Wrap>
             </VStack>
             </HStack>
         </Box>
