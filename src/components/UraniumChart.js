@@ -8,11 +8,13 @@ import {
     Box,
     Input,
     HStack,
-    VStack,
-    InputGroup, InputLeftElement, Checkbox, Wrap
+    VStack, Text,
+    InputGroup, InputLeftElement, Checkbox, Wrap, Heading
   } from '@chakra-ui/react';
 const UraniumChart = () => {
     
+    const projectedUtilityInventories = 113;
+
     const [supplyObj, setSupplyObj] = useState(null);
     const [demandObj, setDemandObj] = useState(null);
     const [deficitObj, setDeficitObj] = useState(null);
@@ -21,6 +23,7 @@ const UraniumChart = () => {
     const [paladinFlag, setPaladinFlag] = useState(false);
     const [globalFlag, setGlobalFlag] = useState(false);
     const [mcarthurFlag, setMcarthurFlag] = useState(false);
+    const [projectedInventoryExpiration, setProjectedInventoryExpiration] = useState(null);
 
     const handleDemandGrowthChange = (e) => {
         setDemandGrowth(parseFloat(e.target.value)/100);
@@ -48,6 +51,8 @@ const UraniumChart = () => {
         setDemandObj(demand_response.data);
 
         let deficit_arr = demand_arr.map(a => ({...a}))
+        let currInventories = projectedUtilityInventories;
+        let projYearsLasted = 0.0;
         supply_arr.forEach((el, index) => {
             el.supplyData.forEach((el2, index2) => {
                 deficit_arr[index2].demand -= el2.supply;
@@ -56,10 +61,20 @@ const UraniumChart = () => {
                     deficit_arr[index2].demand = 0;
                     deficit_arr[index2].label = "";
                 }
-
             })
         })
-
+        deficit_arr.forEach((el, index) => {
+            if(parseInt(el.year) > 2020){
+                if(currInventories > el.demand && currInventories > 0){
+                    currInventories -= el.demand;
+                    projYearsLasted+=1;
+                }else{
+                    projYearsLasted+=currInventories/el.demand
+                    currInventories = 0;
+                }
+            }
+        })
+        setProjectedInventoryExpiration(projYearsLasted);
         setDeficitObj(deficit_arr);
         console.log(deficit_arr)
     },[demandGrowth, longTermUnderfeeding, paladinFlag, globalFlag, mcarthurFlag]);
@@ -98,6 +113,10 @@ const UraniumChart = () => {
                 </VictoryStack>
             </VictoryChart>
             <VStack maxW="30%">
+                    <Text>
+                        Utility inventories will expire in 
+                        <b> {projectedInventoryExpiration.toFixed(2)} </b> years
+                    </Text>
                     <InputGroup size="md" m="1">
                         <InputLeftElement
                             pointerEvents="none"
