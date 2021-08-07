@@ -62,7 +62,7 @@ const UraniumChart = () => {
 
         setDeficitObj(deficit_arr);
         console.log(deficit_arr)
-    },[demandGrowth, longTermUnderfeeding]);
+    },[demandGrowth, longTermUnderfeeding, paladinFlag, globalFlag, mcarthurFlag]);
 
     return (
         <Box maxW="60%">
