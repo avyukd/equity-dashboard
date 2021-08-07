@@ -17,13 +17,19 @@ const UraniumChart = () => {
     const [demandObj, setDemandObj] = useState(null);
     const [deficitObj, setDeficitObj] = useState(null);
     const [demandGrowth, setDemandGrowth] = useState(0);
+    const [longTermUnderfeeding, setLongTermUnderfeeding] = useState(16);
 
     const handleDemandGrowthChange = (e) => {
-        setDemandGrowth(e.target.value);
+        setDemandGrowth(parseFloat(e.target.value)/100);
+    };
+
+    const handleLongTermUnderfeedingChange = (e) => {
+        setLongTermUnderfeeding(parseFloat(e.target.value));
     };
 
     useEffect(async () => {
-        const supply_response = await axios.get("http://127.0.0.1:8000/data/uranium/supply");
+        const supply_response = await axios.get("http://127.0.0.1:8000/data/uranium/supply",
+            { params: {long_term_underfeeding: longTermUnderfeeding} });        
         let supply_arr = supply_response.data;
         setSupplyObj(supply_response.data);
         const demand_response = await axios.get("http://127.0.0.1:8000/data/uranium/demand",
@@ -38,7 +44,7 @@ const UraniumChart = () => {
         supply_arr.forEach((el, index) => {
             el.supplyData.forEach((el2, index2) => {
                 deficit_arr[index2].demand -= el2.supply;
-                deficit_arr[index2].label = deficit_arr[index2].demand;
+                deficit_arr[index2].label = deficit_arr[index2].demand.toFixed(2);
                 if(deficit_arr[index2].demand < 0){
                     deficit_arr[index2].demand = 0;
                     deficit_arr[index2].label = "";
@@ -49,7 +55,7 @@ const UraniumChart = () => {
 
         setDeficitObj(deficit_arr);
         console.log(deficit_arr)
-    },[demandGrowth])
+    },[demandGrowth, longTermUnderfeeding]);
 
     return (
         <Box maxW="50%">
@@ -85,7 +91,7 @@ const UraniumChart = () => {
                 </VictoryStack>
             </VictoryChart>
             <VStack>
-                    <InputGroup size="md" maxW="33%" m="1">
+                    <InputGroup size="md" m="1">
                         <InputLeftElement
                             pointerEvents="none"
                             color="gray.300"
@@ -93,6 +99,15 @@ const UraniumChart = () => {
                             children="%"
                         />
                         <Input placeholder={"Demand Growth"} onBlur={handleDemandGrowthChange}/>
+                    </InputGroup>
+                    <InputGroup>
+                        <InputLeftElement
+                            pointerEvents="none"
+                            color="gray.300"
+                            fontSize="0.75em"
+                            children="Mlbs"
+                        />
+                        <Input placeholder={"LT Underfeeding"} onBlur={handleLongTermUnderfeedingChange}/>
                     </InputGroup>
             </VStack>
             </HStack>
