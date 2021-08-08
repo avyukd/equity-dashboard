@@ -13,7 +13,7 @@ const FearGreedIndex = () => {
 
     return (
         <Box maxW="25%">
-            <Image src={imgUrl} alt="Fear and Greed Index" />
+            <Image  src={imgUrl} alt="Fear and Greed Index" />
         </Box>
     )
 }

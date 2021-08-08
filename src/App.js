@@ -19,9 +19,8 @@ import axios from 'axios';
 import Header from './components/Header';
 import ThemeContext from './context/theme-context';
 import UraniumChart from './components/UraniumChart';
-import ShillerPEChart from './components/ShillerPEChart';
-import FearGreedIndex from './components/FearGreedIndex';
-import IndexData from "./components/IndexData";
+import GeneralDashboard from './components/GeneralDashboard';
+import ReactHtmlParser from 'react-html-parser'
 
 function App() {
 
@@ -36,11 +35,7 @@ function App() {
     <ChakraProvider>
       <Header />
       <Box>
-        <Wrap>
-          <ShillerPEChart />
-          <FearGreedIndex />
-          <IndexData />
-        </Wrap>
+        <GeneralDashboard />
         <CommoditiesDashboard equities={trackedTickers.uraniumTickers}
                               commodityName={"Uranium"}
                               commodityPrice={33}/>
