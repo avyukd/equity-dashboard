@@ -18,7 +18,7 @@ import {
       const [shillerPEdata, setShillerPEdata] = useState([]);
 
       useEffect(async () => {
-          const response = await axios.get("http://127.0.0.1:8000/date/cape");
+          const response = await axios.get("http://127.0.0.1:8000/data/cape");
           const data = response.data;
           setShillerPEdata(data);
       },[])

@@ -7,7 +7,7 @@ import {
   VStack,
   Code,
   Grid,
-  theme,
+  theme, Wrap
 } from '@chakra-ui/react';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 import { Logo } from './Logo';
@@ -20,6 +20,8 @@ import Header from './components/Header';
 import ThemeContext from './context/theme-context';
 import UraniumChart from './components/UraniumChart';
 import ShillerPEChart from './components/ShillerPEChart';
+import FearGreedIndex from './components/FearGreedIndex';
+import IndexData from "./components/IndexData";
 
 function App() {
 
@@ -34,7 +36,11 @@ function App() {
     <ChakraProvider>
       <Header />
       <Box>
-        <ShillerPEChart />
+        <Wrap>
+          <ShillerPEChart />
+          <FearGreedIndex />
+          <IndexData />
+        </Wrap>
         <CommoditiesDashboard equities={trackedTickers.uraniumTickers}
                               commodityName={"Uranium"}
                               commodityPrice={33}/>
