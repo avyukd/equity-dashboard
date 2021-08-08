@@ -19,6 +19,7 @@ import axios from 'axios';
 import Header from './components/Header';
 import ThemeContext from './context/theme-context';
 import UraniumChart from './components/UraniumChart';
+import ShillerPEChart from './components/ShillerPEChart';
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
     <ChakraProvider>
       <Header />
       <Box>
+        <ShillerPEChart />
         <CommoditiesDashboard equities={trackedTickers.uraniumTickers}
                               commodityName={"Uranium"}
                               commodityPrice={33}/>

@@ -23,7 +23,8 @@ const UraniumChart = () => {
     const [paladinFlag, setPaladinFlag] = useState(false);
     const [globalFlag, setGlobalFlag] = useState(false);
     const [mcarthurFlag, setMcarthurFlag] = useState(false);
-    const [projectedInventoryExpiration, setProjectedInventoryExpiration] = useState(null);
+    const [projectedInventoryExpiration, setProjectedInventoryExpiration] = useState(0);
+    const [sput, setSput] = useState(0);
 
     const handleDemandGrowthChange = (e) => {
         setDemandGrowth(parseFloat(e.target.value)/100);
@@ -33,12 +34,17 @@ const UraniumChart = () => {
         setLongTermUnderfeeding(parseFloat(e.target.value));
     };
 
+    const handleSPUTChange = (e) => {
+        setSput(parseFloat(e.target.value));
+    };
+
     useEffect(async () => {
         const supply_response = await axios.get("http://127.0.0.1:8000/data/uranium/supply",
             { params: {long_term_underfeeding: longTermUnderfeeding,
                     paladinFlag: paladinFlag,
                     globalFlag: globalFlag,
-                    mcarthurFlag: mcarthurFlag
+                    mcarthurFlag: mcarthurFlag,
+                    sputYr: sput
             } });        
         let supply_arr = supply_response.data;
         setSupplyObj(supply_response.data);
@@ -77,7 +83,7 @@ const UraniumChart = () => {
         setProjectedInventoryExpiration(projYearsLasted);
         setDeficitObj(deficit_arr);
         console.log(deficit_arr)
-    },[demandGrowth, longTermUnderfeeding, paladinFlag, globalFlag, mcarthurFlag]);
+    },[demandGrowth, longTermUnderfeeding, paladinFlag, globalFlag, mcarthurFlag, sput]);
 
     return (
         <Box maxW="60%">
@@ -125,6 +131,15 @@ const UraniumChart = () => {
                             children="%"
                         />
                         <Input placeholder={"Demand Growth"} onBlur={handleDemandGrowthChange}/>
+                    </InputGroup>
+                    <InputGroup>
+                        <InputLeftElement
+                            pointerEvents="none"
+                            color="gray.300"
+                            fontSize="0.75em"
+                            children="Mlbs"
+                        />
+                        <Input placeholder={"SPUT Buying"} onBlur={handleSPUTChange}/>
                     </InputGroup>
                     <InputGroup>
                         <InputLeftElement
