@@ -13,34 +13,37 @@ import {
     InputGroup, InputLeftElement, Checkbox, Wrap, Heading
   } from '@chakra-ui/react';
 
-  const ShillerPEChart = () => {
+  const MarginDebtChart = () => {
 
-      const [shillerPEdata, setShillerPEdata] = useState([]);
+      const [margindata, setMargindata] = useState([]);
 
       useEffect(async () => {
-          const response = await axios.get("http://127.0.0.1:8000/data/cape");
+          const response = await axios.get("http://127.0.0.1:8000/data/margin");
           const data = response.data;
-          setShillerPEdata(data);
+          setMargindata(data);
       },[])
 
       return (
           <Box maxW="25%">
               <VictoryChart containerComponent={<VictoryZoomContainer/>}              >
-                <VictoryAxis tickCount={10} tickFormat={
+                <VictoryAxis tickCount={1} tickFormat={
                     (el) => {
                         //date to year
                         const date = new Date(el);
                         return date.getFullYear();
-                    }
-                }/>
-                <VictoryLabel text="Shiller PE" x="50%" y={30} textAnchor="middle"/>
+                    } 
+                } />
+                <VictoryAxis dependentAxis tickFormat={
+                    (el) => ((el*100).toString()+"%")
+                } />
+                <VictoryLabel text="Margin Debt YOY" x="50%" y={30} textAnchor="middle"/>
                 {
-                    shillerPEdata && 
-                    <VictoryLine data={shillerPEdata} x="date" y="cape"/>
+                    margindata && 
+                    <VictoryLine data={margindata} x="date" y="debt_pct_change"/>
                 }
               </VictoryChart>
           </Box>
       );
   }
 
-  export default ShillerPEChart;
+  export default MarginDebtChart;
