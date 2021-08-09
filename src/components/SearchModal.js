@@ -48,7 +48,11 @@ const SearchModal = () => {
                     {
                         searchResults.map((result) => {
                             return (
-                                <Text>{result.metadata}</Text>
+                                <a href={result.metadata}>
+                                    <Text>{
+                                        result.metadata.split("/")[2]
+                                    }</Text>    
+                                </a>
                             );
                         })
                     }
