@@ -55,7 +55,7 @@ const getValuationResponse = async (props) =>{
         console.log("In commodities...");
         params.append("commodity_price", props.commodityPrice);
         params.append("multiple",props.navMultiple);
-        params.append("capex_multiplier",props.capexMultiplier);
+        params.append("capex_mult",props.capexMultiplier);
         const response = await axios.get(
             "http://127.0.0.1:8000/equities/valuation/commodities/"+props.commodityName,
             {
