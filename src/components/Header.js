@@ -11,7 +11,7 @@ import {
 import { Select } from "@chakra-ui/react"
 import { useState, useContext } from "react";
 import ThemeContext from '../context/theme-context';
-
+import SearchModal from "./SearchModal";
 const Header = (props) => {
 
     const ctx = useContext(ThemeContext);
@@ -34,10 +34,11 @@ const Header = (props) => {
         <Flex align="center" mr={5}>
           <Heading as="h1" size="lg" letterSpacing={"tighter"}>
               Investing Dashboard
-          </Heading>
+          </Heading> 
         </Flex>
-  
-        
+        <Box>
+            <SearchModal />
+        </Box>
         <Box>
           <Select color="black" onChange={handleUpsideOptionChange}>
             <option>Percentage</option>

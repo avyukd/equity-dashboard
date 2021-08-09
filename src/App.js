@@ -21,7 +21,7 @@ import ThemeContext from './context/theme-context';
 import UraniumChart from './components/UraniumChart';
 import GeneralDashboard from './components/GeneralDashboard';
 import ReactHtmlParser from 'react-html-parser'
-
+import SearchModal from './components/SearchModal';
 function App() {
 
   const [upsideOption, setUpsideOption] = useState('Percentage');

@@ -33,6 +33,7 @@ import {
                         return date.getFullYear();
                     }
                 }/>
+                <VictoryAxis dependentAxis/>
                 <VictoryLabel text="Shiller PE" x="50%" y={30} textAnchor="middle"/>
                 {
                     shillerPEdata && 
