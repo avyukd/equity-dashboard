@@ -7,7 +7,7 @@ import {
     ModalBody,
     ModalCloseButton,
     useDisclosure, Button, Lorem, Input, InputGroup,
-    HStack, Text
+    HStack, Text, VStack, Box
   } from "@chakra-ui/react";
 import axios from "axios";
 
@@ -17,7 +17,7 @@ const SearchModal = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const [searchResults, setSearchResults] = useState([]);
-    const [searchQuery, setSearchQuery] = useState("");
+    const [searchQuery, setSearchQuery] = useState("Search");
 
     const handleSearchQueryChange = (e) => {
         setSearchQuery(e.target.value);
@@ -31,31 +31,45 @@ const SearchModal = () => {
         })
         setSearchResults(response.data.data);
     }
+
+    const outsideClickHandler = (e) => {
+        onOpen();
+        handleSearch();
+    }
     return (
     <>
-        <Button onClick={onOpen}>Search</Button>
+        <HStack>
+            <InputGroup size="md" maxW="70%" m="1" border="0px">
+                <Input placeholder={searchQuery} onChange={handleSearchQueryChange} border="2px"/>
+            </InputGroup>
+            <Button onClick={outsideClickHandler}>Search</Button>
+        </HStack>
         <Modal isOpen={isOpen} onClose={onClose} size="xl">
             <ModalOverlay />
             <ModalContent>
                 <HStack>
                     <InputGroup size="md" maxW="70%" m="1">
-                        <Input placeholder="Search" onChange={handleSearchQueryChange}/>
+                        <Input placeholder={searchQuery} onChange={handleSearchQueryChange}/>
                     </InputGroup>
-                    <Button onClick={handleSearch}>Submit</Button>
+                    <Button onClick={handleSearch}>Search</Button>
                 </HStack>
                 <ModalCloseButton />
                 <ModalBody>
+                    <VStack spacing={5}>
                     {
                         searchResults.map((result) => {
                             return (
-                                <a href={result.metadata}>
-                                    <Text>{
-                                        result.metadata.split("/")[2]
-                                    }</Text>    
-                                </a>
+                                <Box>
+                                    <a href={result.metadata.split("\n")[0]}>
+                                        <Text>{
+                                            result.metadata.split("\n")[1]
+                                        }</Text>    
+                                    </a>
+                                </Box>
                             );
                         })
                     }
+                    </VStack>
                 </ModalBody>
             </ModalContent>
         </Modal>
