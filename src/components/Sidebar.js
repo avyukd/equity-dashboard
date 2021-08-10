@@ -51,6 +51,11 @@ const Sidebar = () => {
         }
     }
 
+    const deleteEntry = async (ticker) => {
+        await axios.delete("http://127.0.0.1:8000/watchlist/" + ticker);
+        await getWatchlist();
+    }
+
     return (
         <>
       <IconButton ref={btnRef} icon={<ArrowRightIcon />} onClick={handleSidebarOpen} />
@@ -72,7 +77,9 @@ const Sidebar = () => {
                     return (
                         <Box key={index}>
                             <HStack>
-                                <IconButton size="xs" rounded="100%" icon={<CloseIcon />}/>
+                                <IconButton size="xs" rounded="100%" icon={<CloseIcon />}
+                                onClick = {() => deleteEntry(item.ticker)}
+                                />
                                 <Text><b>{item.ticker}</b>: {item.name}</Text>
                             </HStack>
                         </Box>
