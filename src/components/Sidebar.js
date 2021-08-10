@@ -7,10 +7,10 @@ import {
     DrawerContent,
     DrawerCloseButton,
     useDisclosure, IconButton , Button, Input,
-    Text, HStack, VStack, Box
+    Text, HStack, VStack, Box, InputGroup
   } from "@chakra-ui/react"
 
-  import { ArrowRightIcon } from '@chakra-ui/icons'
+  import { ArrowRightIcon, AddIcon } from '@chakra-ui/icons'
 
   import { useRef, useState } from "react"
 import axios from "axios";
@@ -21,14 +21,34 @@ const Sidebar = () => {
 
     const [watchlist, setWatchlist] = useState([]);
 
+    const [formTicker, setFormTicker] = useState('Ticker');
+    const [formName, setFormName] = useState('Name');
+
     const handleSidebarOpen = async () => {
         onOpen();
+        getWatchlist();
+    }
+
+    const getWatchlist = async () => {
         const response = await axios.get("http://127.0.0.1:8000/watchlist/", {
             params : {
                 "limit" : 100
             }
         })
         setWatchlist(response.data);
+    }
+
+    const handleWatchlistAdd = async () => {
+        if(formTicker !== '' && formName !== '' && 
+            formTicker !== 'Ticker' && formName !== 'Name'){
+            await axios.post("http://127.0.0.1:8000/watchlist/", {
+                "ticker" : formTicker,
+                "name" : formName
+            });
+            await getWatchlist();
+            setFormTicker('Ticker');
+            setFormName('Name');
+        }
     }
 
     return (
@@ -56,6 +76,19 @@ const Sidebar = () => {
                     )
                 })
             }
+            <InputGroup>
+                <Input placeholder={formTicker} maxW="30%" mr={2} onChange={
+                    (e) => {
+                        setFormTicker(e.target.value);
+                    }
+                }/>
+                <Input placeholder={formName} maxW="70%" onChange={
+                    (e) => {
+                        setFormName(e.target.value);
+                    }
+                }/>
+            </InputGroup>
+            <IconButton icon={<AddIcon />} rounded="100%" onClick={handleWatchlistAdd}/>
             </VStack>
           </DrawerBody>
 
