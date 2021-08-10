@@ -10,7 +10,7 @@ import {
     Text, HStack, VStack, Box, InputGroup
   } from "@chakra-ui/react"
 
-  import { ArrowRightIcon, AddIcon } from '@chakra-ui/icons'
+  import { ArrowRightIcon, AddIcon, CloseIcon } from '@chakra-ui/icons'
 
   import { useRef, useState } from "react"
 import axios from "axios";
@@ -71,7 +71,10 @@ const Sidebar = () => {
                 watchlist && watchlist.map((item, index) => {
                     return (
                         <Box key={index}>
-                            <Text><b>{item.ticker}</b>: {item.name}</Text>
+                            <HStack>
+                                <IconButton size="xs" rounded="100%" icon={<CloseIcon />}/>
+                                <Text><b>{item.ticker}</b>: {item.name}</Text>
+                            </HStack>
                         </Box>
                     )
                 })
