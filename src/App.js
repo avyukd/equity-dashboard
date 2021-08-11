@@ -7,7 +7,7 @@ import {
   VStack,
   Code,
   Grid,
-  theme, Wrap
+  theme, Wrap, HStack
 } from '@chakra-ui/react';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 import { Logo } from './Logo';
@@ -20,8 +20,8 @@ import Header from './components/Header';
 import ThemeContext from './context/theme-context';
 import UraniumChart from './components/UraniumChart';
 import GeneralDashboard from './components/GeneralDashboard';
-import ReactHtmlParser from 'react-html-parser'
-import SearchModal from './components/SearchModal';
+import MiniCoalDashboard from './components/MiniCoalDashboard';
+
 function App() {
 
   const [upsideOption, setUpsideOption] = useState('Percentage');
@@ -40,6 +40,11 @@ function App() {
                               commodityName={"Uranium"}
                               commodityPrice={33}/>
         <UraniumChart />
+        <HStack>
+          <MiniCoalDashboard equities={trackedTickers.coalTickers}
+                              commodityPrice={70}
+          />
+        </HStack>
         <GrowthDashboard equities={trackedTickers.growthTickers} />
       </Box>
     </ChakraProvider>

@@ -50,12 +50,16 @@ const getPrimaryMetric = props => {
 const getValuationResponse = async (props) =>{
     const params = new URLSearchParams();
     params.append("ticker", props.ticker);
-    params.append("discount_rate",props.discountRate);
     if(props.assetType === "commodities"){
         console.log("In commodities...");
         params.append("commodity_price", props.commodityPrice);
-        params.append("multiple",props.navMultiple);
-        params.append("capex_mult",props.capexMultiplier);
+        if(props.commodityName === "coal"){
+            params.append("ebitda_mult",props.ebitdaMultiple);
+        }else{
+            params.append("multiple",props.navMultiple);
+            params.append("capex_mult",props.capexMultiplier);
+            params.append("discount_rate",props.discountRate);
+        }
         const response = await axios.get(
             "http://127.0.0.1:8000/equities/valuation/commodities/"+props.commodityName,
             {
@@ -68,6 +72,7 @@ const getValuationResponse = async (props) =>{
         params.append("cagr",props.cagr);
         params.append("terminal_growth",props.tvRate);
         params.append("speed_of_convergence",props.soc);
+        params.append("discount_rate",props.discountRate);
         const response = await axios.get(
             "http://127.0.0.1:8000/equities/valuation/growth",
             {

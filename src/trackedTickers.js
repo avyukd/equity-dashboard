@@ -9,6 +9,9 @@ const trackedTickers =
     ],
     "growthTickers":[
         {"ticker":"PLTR","name":"Palantir"}
+    ],
+    "coalTickers":[
+        {"ticker":"BTU", "name":"Peabody Energy"}
     ]
 }
 
