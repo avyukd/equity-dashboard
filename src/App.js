@@ -21,6 +21,7 @@ import ThemeContext from './context/theme-context';
 import UraniumChart from './components/UraniumChart';
 import GeneralDashboard from './components/GeneralDashboard';
 import MiniCoalDashboard from './components/MiniCoalDashboard';
+import MiniWaterDashboard from './components/MiniWaterDashboard';
 
 function App() {
 
@@ -44,6 +45,7 @@ function App() {
           <MiniCoalDashboard equities={trackedTickers.coalTickers}
                               commodityPrice={70}
           />
+          <MiniWaterDashboard equities={trackedTickers.waterTickers}/>
         </HStack>
         <GrowthDashboard equities={trackedTickers.growthTickers} />
       </Box>

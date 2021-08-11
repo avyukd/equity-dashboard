@@ -12,6 +12,9 @@ const trackedTickers =
     ],
     "coalTickers":[
         {"ticker":"BTU", "name":"Peabody Energy"}
+    ],
+    "waterTickers":[
+        {"ticker":"VWTR","name":"Vidler Water"}
     ]
 }
 
