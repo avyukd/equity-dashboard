@@ -10,8 +10,9 @@ import {
 } from '@chakra-ui/react';
 import { FaHome, FaSave } from 'react-icons/fa';
 import { useHistory } from 'react-router';
+import axios from 'axios';
 
-const EqEditor = () => {
+const EqEditor = (props) => {
 
   const history = useHistory();
 
@@ -22,7 +23,9 @@ const EqEditor = () => {
   const handleSave = () => {
     const contentState = editorState.getCurrentContent();
     const jsonState = convertToRaw(contentState);
-    console.log(jsonState);
+    axios.post("http://127.0.0.1:8000/notes/"+props.ticker, 
+      {"notes":JSON.stringify(jsonState)}
+    )
   }
 
   const handleHome = () => {

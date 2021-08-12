@@ -12,7 +12,7 @@ const EquityPage = () => {
             <Center>
                 <Heading>{ticker}</Heading>
             </Center>
-            <EqEditor />
+            <EqEditor ticker={ticker}/>
         </>
     )
 }
