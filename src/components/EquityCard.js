@@ -107,11 +107,27 @@ const EquityCard = props => {
     const [sharePrice, setSharePrice] = useState(null);
     const [mktCap, setMktCap] = useState(null);
     const [upside, setUpside] = useState(null);
-    const [bgColor, setBgColor] = useState("gray.200");
+    const [bgColor, setBgColor] = useState(null);
+
+    //add state to local storage
+
+    useEffect(() => {
+        if(sharePrice!==null)
+            localStorage.setItem(props.ticker+"_sharePrice", sharePrice);
+        if(mktCap!==null)
+            localStorage.setItem(props.ticker+"_mktCap", mktCap);
+        if(upside!==null)
+            localStorage.setItem(props.ticker+"_upside", upside);
+        if(bgColor!==null)
+            localStorage.setItem(props.ticker+"_bgColor", bgColor);
+    }, [sharePrice, mktCap, upside, bgColor]);
 
     useEffect(async () => {
         console.log("In quote...")
-        if(sharePrice === null){
+        if(localStorage.getItem(props.ticker+"_sharePrice") !== null){
+            setSharePrice(localStorage.getItem(props.ticker+"_sharePrice"));
+            setMktCap(localStorage.getItem(props.ticker+"_mktCap"));
+        }else{
             let params = new URLSearchParams();
             params.append("ticker", props.ticker);
             const response = await axios.get("http://127.0.0.1:8000/equities/quote",
@@ -125,33 +141,12 @@ const EquityCard = props => {
     }, []);
 
     useEffect(async () => {
-        if(mktCap !== null){
-            /*console.log("Sending request to price at",props.commodityPrice);
-            let params = new URLSearchParams();
-            params.append("ticker", props.ticker);
-            params.append("commodity_price", props.commodityPrice);
-            if(props.navMultiple !== null){
-                params.append("multiple",props.navMultiple);
-            }
-            params.append("discount_rate",props.discountRate);
-            params.append("capex_mult",props.capexMultiplier);
-            const response = await axios.get(
-                "http://127.0.0.1:8000/equities/valuation/"+props.commodityName,
-                {
-                    params: params
-                }
-            )*/
+        if(localStorage.getItem(props.ticker+"_upside") !== null){
+            setUpside( localStorage.getItem(props.ticker+"_upside") );
+            setBgColor(localStorage.getItem(props.ticker+"_bgColor"));
+        }else{
             const response = await getValuationResponse(props);
             if(response !== 0){
-                /*console.log("In main");
-                console.log(response);
-                let NAV = parseFloat(response.value); 
-                NAV = NAV * 1000000;
-                if(NAV < 0){
-                    NAV = 0;
-                }
-                let mcap = parseFloat(mktCap);
-                */
                 let NAV = parseFloat(response.value);
                 NAV = NAV * 1000000;
                 if(NAV < 0){
@@ -164,8 +159,6 @@ const EquityCard = props => {
                 setUpside( upside );
                 setBgColor(color_from_return(ret));
             }
-            
-
         }
     }, [mktCap, props])
 
