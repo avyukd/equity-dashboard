@@ -22,6 +22,8 @@ import UraniumChart from './components/UraniumChart';
 import GeneralDashboard from './components/GeneralDashboard';
 import MiniCoalDashboard from './components/MiniCoalDashboard';
 import MiniWaterDashboard from './components/MiniWaterDashboard';
+import { Route } from 'react-router-dom';
+import EquityPage from './components/EquityPage';
 
 function App() {
 
@@ -34,21 +36,26 @@ function App() {
       }
     }>
     <ChakraProvider>
-      <Header />
-      <Box>
-        <GeneralDashboard />
-        <CommoditiesDashboard equities={trackedTickers.uraniumTickers}
-                              commodityName={"Uranium"}
-                              commodityPrice={33}/>
-        <UraniumChart />
-        <HStack>
-          <MiniCoalDashboard equities={trackedTickers.coalTickers}
-                              commodityPrice={70}
-          />
-          <MiniWaterDashboard equities={trackedTickers.waterTickers}/>
-        </HStack>
-        <GrowthDashboard equities={trackedTickers.growthTickers} />
-      </Box>
+      <Route exact path="/">
+        <Header />
+        <Box>
+          <GeneralDashboard />
+          <CommoditiesDashboard equities={trackedTickers.uraniumTickers}
+                                commodityName={"Uranium"}
+                                commodityPrice={33}/>
+          <UraniumChart />
+          <HStack>
+            <MiniCoalDashboard equities={trackedTickers.coalTickers}
+                                commodityPrice={70}
+            />
+            <MiniWaterDashboard equities={trackedTickers.waterTickers}/>
+          </HStack>
+          <GrowthDashboard equities={trackedTickers.growthTickers} />
+        </Box>
+      </Route>
+      <Route path="/equity/:ticker">
+        <EquityPage />
+      </Route>
     </ChakraProvider>
     </ThemeContext.Provider>
   );

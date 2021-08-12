@@ -2,7 +2,6 @@ import {
     ChakraProvider,
     Box,
     Text,
-    Link,
     VStack,
     Code,
     Grid,
@@ -14,7 +13,7 @@ import { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import CurrencyFormat from 'react-currency-format';
 import ThemeContext from '../context/theme-context';
-
+import { Link } from 'react-router-dom';
 const color_from_return = (ret) => {
     if(ret > 0){
         if(ret < 50){
@@ -55,7 +54,7 @@ const getValuationResponse = async (props) =>{
         params.append("commodity_price", props.commodityPrice);
         if(props.commodityName === "coal"){
             params.append("ebitda_mult",props.ebitdaMultiple);
-        }else{
+        }else if(props.commodityName === "uranium"){
             params.append("multiple",props.navMultiple);
             params.append("capex_mult",props.capexMultiplier);
             params.append("discount_rate",props.discountRate);
@@ -66,7 +65,7 @@ const getValuationResponse = async (props) =>{
                 params: params
             }
         )
-        console.log(response.data.value);
+        console.log(response.data);
         return response.data;
     }else if(props.assetType === "growth"){
         params.append("cagr",props.cagr);
@@ -171,10 +170,13 @@ const EquityCard = props => {
     }, [mktCap, props])
 
     return (
+        <Link to={"/equity/"+props.ticker}>
             <Box maxW="md" borderWidth="1px" borderRadius="lg" overflow="hidden" bg={bgColor}> 
                 <HStack>
                     <VStack m="5">
-                        <Heading as="h4" size="md">{props.name}</Heading>
+                        <Heading as="h4" size="md">
+                            {props.name}
+                        </Heading>
                         <Heading as="h6" size="sm">{props.ticker}</Heading>
                         <Text size="sm">
                             {sharePrice && <CurrencyFormat value={sharePrice} displayType={'text'} thousandSeparator={true} prefix={'$'} />}
@@ -191,7 +193,7 @@ const EquityCard = props => {
                     </Box>
                 </HStack>
             </Box>
-
+        </Link>
     );
 }
 
