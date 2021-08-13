@@ -104,11 +104,25 @@ const EquityCard = props => {
 
     const ctx = useContext(ThemeContext);
 
+
+
     const [sharePrice, setSharePrice] = useState(null);
     const [mktCap, setMktCap] = useState(null);
     const [upside, setUpside] = useState(null);
     const [bgColor, setBgColor] = useState(null);
 
+    useEffect(() => {
+        if(ctx.refreshState){
+            console.log("Refreshing...");
+            localStorage.clear();
+            setSharePrice(null);
+            setMktCap(null);
+            setUpside(null);
+            setBgColor(null);
+            ctx.refreshState = false;
+        }    
+    }, [ctx.refreshState])
+    
     //add state to local storage
 
     useEffect(() => {

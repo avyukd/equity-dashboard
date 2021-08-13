@@ -28,11 +28,13 @@ import EquityPage from './components/EquityPage';
 function App() {
 
   const [upsideOption, setUpsideOption] = useState('Percentage');
+  const [refreshState, setRefreshState] = useState(false);
 
   return (
     <ThemeContext.Provider value={
       {
-        upsideOption, setUpsideOption
+        upsideOption, setUpsideOption,
+        refreshState, setRefreshState
       }
     }>
     <ChakraProvider>
