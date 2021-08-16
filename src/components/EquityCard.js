@@ -104,14 +104,13 @@ const EquityCard = props => {
 
     const ctx = useContext(ThemeContext);
 
-
-
     const [sharePrice, setSharePrice] = useState(null);
     const [mktCap, setMktCap] = useState(null);
     const [upside, setUpside] = useState(null);
     const [bgColor, setBgColor] = useState(null);
 
-    useEffect(() => {
+
+    /*useEffect(() => {
         if(ctx.refreshState){
             console.log("Refreshing...");
             localStorage.clear();
@@ -121,11 +120,11 @@ const EquityCard = props => {
             setBgColor(null);
             ctx.refreshState = false;
         }    
-    }, [ctx.refreshState])
+    }, [ctx.refreshState])*/
     
     //add state to local storage
 
-    useEffect(() => {
+    /*useEffect(() => {
         if(sharePrice!==null)
             localStorage.setItem(props.ticker+"_sharePrice", sharePrice);
         if(mktCap!==null)
@@ -134,11 +133,11 @@ const EquityCard = props => {
             localStorage.setItem(props.ticker+"_upside", upside);
         if(bgColor!==null)
             localStorage.setItem(props.ticker+"_bgColor", bgColor);
-    }, [sharePrice, mktCap, upside, bgColor]);
+    }, [sharePrice, mktCap, upside, bgColor]);*/
 
     useEffect(async () => {
         console.log("In quote...")
-        if(localStorage.getItem(props.ticker+"_sharePrice") !== null){
+        if(false && localStorage.getItem(props.ticker+"_sharePrice") !== null){
             setSharePrice(localStorage.getItem(props.ticker+"_sharePrice"));
             setMktCap(localStorage.getItem(props.ticker+"_mktCap"));
         }else{
@@ -155,7 +154,7 @@ const EquityCard = props => {
     }, []);
 
     useEffect(async () => {
-        if(localStorage.getItem(props.ticker+"_upside") !== null){
+        if(false && localStorage.getItem(props.ticker+"_upside") !== null){
             setUpside( localStorage.getItem(props.ticker+"_upside") );
             setBgColor(localStorage.getItem(props.ticker+"_bgColor"));
         }else{
