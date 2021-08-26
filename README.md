@@ -17,7 +17,7 @@ A lot of my personal investment research (valuations, company notes, portfolio s
 - Commodities supply/demand model (currently only for Uranium)
 - Watchlist (currently stored in SQLite, migrating to MongoDB)
 
-# Working on adding...
+### Working on adding...
 - Functioning cache
 - Note taking space for individual equities (using Draft.js)
 - Auto-updated bookmarking (using chrome extension)
