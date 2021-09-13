@@ -52,9 +52,9 @@ const getValuationResponse = async (props) =>{
     if(props.assetType === "commodities"){
         console.log("In commodities...");
         params.append("commodity_price", props.commodityPrice);
-        if(props.commodityName === "coal"){
+        if(props.commodityName.toLowerCase() === "coal"){
             params.append("ebitda_mult",props.ebitdaMultiple);
-        }else if(props.commodityName === "uranium"){
+        }else if(props.commodityName.toLowerCase() === "uranium"){
             params.append("multiple",props.navMultiple);
             params.append("capex_mult",props.capexMultiplier);
             params.append("discount_rate",props.discountRate);
